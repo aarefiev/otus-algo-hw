@@ -1,0 +1,29 @@
+<input> 7 2
+read 1
+read 2
+
+load =0
+store 3
+
+while:
+	load 1
+	sub 2
+	
+	jz division
+	jgtz division
+
+	jmp end	
+
+division:
+	store 1
+
+	load 3
+	add =1
+	store 3
+
+	jmp while	
+
+end:
+	write 3
+	write 1
+	halt

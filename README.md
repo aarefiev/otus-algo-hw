@@ -6,4 +6,4 @@ Home works for Algorithms for developers course.
 
 Random Access Machine.
 
-### Division by subtraction 
+### [Division by subtraction](lesson1/div_by_sub/)
