@@ -1,0 +1,98 @@
+<input> 5 1 2 4 3 5
+read 1 ; r1 -> количество данных
+
+read:
+	load =10;
+	store 2; ; r2 -> указатель на ячейку для записи массива;
+	         ; в регистрах начиная c 10 размещается входящий массив
+	         ; все регистры до 10 отводятся под служебные переменные
+	jmp read_loop
+
+read_loop:
+	load 1
+	sub 2
+	add =10
+	jz sort ; конец ввода, приступаем к сортировке
+
+	read *2 ; новое число записывается по адресу из r2
+
+	load 2
+	add =1
+	store 2 ; r2 += 1
+	jmp read_loop
+
+sort:
+	load =10
+	store 3 ; r3 -> указатель на i-й элемент массива
+
+	load =11
+	store 4 ; r4 -> указатель на k-й элемент массива
+
+	jmp sort_loop_i
+
+sort_loop_i:
+	load 1
+	sub 3
+	add =10
+	jz write
+	
+	jmp sort_loop_k
+
+sort_loop_k:
+	load 1
+	sub 4
+	add =10
+	jz increment_i
+
+	load *3
+	sub *4
+	jgtz change_i_k_order
+
+	jmp increment_k
+
+change_i_k_order:
+	load *3
+	store 5 ; r5 -> temp для текущего указателя по r3
+
+	load *4
+	store *3
+
+	load 5
+	store *3
+	
+	jmp increment_k
+
+increment_i:
+	load 3
+	add =1
+	store 3
+
+	jmp sort_loop_i
+
+increment_k:
+	load 4
+	add =1
+	store 4
+
+	jmp sort_loop_k
+
+write:
+	load =10
+	store 2
+	jmp write_loop
+
+write_loop:
+	load 1
+	sub 2
+	add =10
+	jz end
+
+	write *2
+
+	load 2
+	add =1
+	store 2
+	jmp write_loop
+	
+end:
+	halt
