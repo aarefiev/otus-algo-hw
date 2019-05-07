@@ -1,4 +1,4 @@
-<input> 5 1 2 4 3 5
+<input> 5 11 5 7 2 4
 read 1 ; r1 -> количество данных
 
 read:
@@ -35,6 +35,9 @@ sort_loop_i:
 	sub 3
 	add =10
 	jz write
+
+	load 3
+	store 5 ; r5 -> указатель на мин. i-й элемент массива
 	
 	jmp sort_loop_k
 
@@ -42,30 +45,46 @@ sort_loop_k:
 	load 1
 	sub 4
 	add =10
-	jz increment_i
+	jz change_order ; конец итерирования по k
 
-	load *3
+	load *5
 	sub *4
-	jgtz change_i_k_order
+	jgtz min_k ; изменение минимального k
 
 	jmp increment_k
+
+min_k:
+	load 4
+	store 5
+
+	jmp increment_k
+
+change_order:
+	load 5
+	sub 3
+	jgtz change_i_k_order
+	jmp increment_i
 
 change_i_k_order:
 	load *3
-	store 5 ; r5 -> temp для текущего указателя по r3
+	store 6 ; r6 -> temp для текущего указателя по r3
 
-	load *4
+	load *5
 	store *3
 
-	load 5
-	store *3
+	load 6
+	store *5
 	
-	jmp increment_k
+	jmp increment_i
 
 increment_i:
 	load 3
 	add =1
 	store 3
+
+	load 3
+	add =1
+	store 4
 
 	jmp sort_loop_i
 
@@ -93,6 +112,6 @@ write_loop:
 	add =1
 	store 2
 	jmp write_loop
-	
+
 end:
 	halt

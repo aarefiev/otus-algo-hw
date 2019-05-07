@@ -1,6 +1,6 @@
-# Sort
+# Selection sort
 
-Sorting algorithm written on Random Access Machine
+Selection sort algorithm written on Random Access Machine
 
 On input takes two parts of numbers:
 - count of array,
